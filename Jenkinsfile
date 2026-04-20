@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
 
         stage('Install Dependencies') {
@@ -21,19 +22,19 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('sonar') {
-            sh '''
-            npx sonar-scanner \
-            -Dsonar.projectKey=my-node-project \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=http://sonarqube:9000 \
-            -Dsonar.login=sqa_055a7825eaefdf1a40bfea6829c12126e76faf87
-            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
-            '''
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''
+                    npx sonar-scanner \
+                    -Dsonar.projectKey=my-node-project \
+                    -Dsonar.sources=src \
+                    -Dsonar.host.url=http://sonarqube:9000 \
+                    -Dsonar.login=sqa_055a7825eaefdf1a40bfea6829c12126e76faf87 \
+                    -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Quality Gate') {
             steps {
