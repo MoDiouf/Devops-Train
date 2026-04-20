@@ -22,18 +22,20 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh '''
-                    npx sonar-scanner \
-                    -Dsonar.projectKey=my-node-project \
-                    -Dsonar.sources=src \
-                    -Dsonar.host.url=http://sonarqube:9000 \
-                    -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
-                    '''
-                }
-            }
+    steps {
+        withSonarQubeEnv('sonar') {
+            sh '''
+            npx sonar-scanner \
+            -Dsonar.projectKey=my-node-project \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=http://sonarqube:9000 \
+            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
+            -Dsonar.javascript.node.max_old_space_size=4096
+            '''
         }
+    }
+}
+
 
         stage('Quality Gate') {
             steps {
