@@ -1,11 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage('Checkout'){
-            steps{
-                sh 'git clone https://github.com/MoDiouf/Devops-Train.git'
-            }
-        }
+
         stage('Install Dependencies'){
             steps{
                 sh 'npm install'
