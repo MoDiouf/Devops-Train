@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                echo 'Checking out code...'
+                sh 'git clone https://github.com/MoDiouf/Devops-Train.git'
             }
         }
         stage('Install Dependencies'){
