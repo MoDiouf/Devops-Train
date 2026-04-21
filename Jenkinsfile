@@ -22,26 +22,30 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('sonar') {
-            sh '''
-            npx sonar-scanner \
-            -Dsonar.projectKey=my-node-project \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=http://sonarqube:9000 \
-            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
-            -Dsonar.javascript.node.max_old_space_size=4096
-            '''
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''
+                    npx sonar-scanner \
+                    -Dsonar.projectKey=my-node-project \
+                    -Dsonar.sources=src \
+                    -Dsonar.host.url=http://sonarqube:9000 \
+                    -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
+                    '''
+                }
+            }
         }
-    }
-}
-
 
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t app .'
             }
         }
     }
