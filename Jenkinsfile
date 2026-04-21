@@ -5,7 +5,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
             }
         }
 
@@ -45,7 +45,8 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-        sh 'docker build -t app .'
-    }
+                sh 'docker build -t app .'
+            }
+        }
     }
 }
