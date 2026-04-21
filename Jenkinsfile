@@ -26,7 +26,7 @@ pipeline {
                 withSonarQubeEnv('sonar') {
                     sh '''
                     npx sonar-scanner \
-                    -Dsonar.projectKey=my-node-project \
+                    -Dsonar.projectKey=devops-train \
                     -Dsonar.sources=src \
                     -Dsonar.host.url=http://sonarqube:9000 \
                     -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
@@ -45,8 +45,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t app .'
-            }
-        }
+        sh 'docker build -t app .'
+    }
     }
 }
